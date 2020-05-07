@@ -1,22 +1,31 @@
-import React from 'react'
-import './header.styles.scss'
-import {Link} from 'react-router-dom'
-import { ReactComponent as Logo} from './assets/original.svg'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import {auth} from '../../firebase/firebase.ultils'
+import { ReactComponent as Logo } from '../../assets/original.svg';
 
-const Header = ()=> {
-    return (
-     <div className='header'>
-    <Link to='/' className='logo-container'>
+import './header.styles.scss';
+
+const Header = ({currentUser}) => (
+  <div className='header'>
+    <Link className='logo-container' to='/'>
       <Logo className='logo' />
     </Link>
     <div className='options'>
-        <Link to='/shop' className='option'>SHOP</Link>
-
-        <Link to='/' className='option'>CONTACT</Link>
-        
+      <Link className='option' to='/shop'>
+        SHOP
+      </Link>
+      <Link className='option' to='/shop'>
+        CONTACT
+      </Link>
+      {currentUser?<div className='option' onClick={()=>auth.signOut()}>SIGNOUT</div>
+      :
+      <Link className='option' to='/signin'>
+        SIGNIN
+      </Link>
+    }
+      
     </div>
-  </div>)
-   
-}
+  </div>
+);
 
-export default Header
+export default Header;
