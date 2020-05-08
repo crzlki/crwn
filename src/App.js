@@ -11,7 +11,8 @@ import './App.css';
 import {
   
  Switch,
-  Route
+  Route,
+  Redirect
   // useRouteMatch,
   // useParams
 } from "react-router-dom";
@@ -57,7 +58,9 @@ class App  extends React.Component {
         <Route exact path='/'  component={HomePage}/>
         {/* <Route  path='/topics'  component={Home}/> */}
         <Route  path='/shop'  component={Shop}/>
-        <Route  path='/signin'  component={SignIn}/>
+        <Route  exact path='/signin' render ={()=>( this.props.currentUser ? (<Redirect to='/'></Redirect>)
+        :(<SignIn></SignIn>)
+         ) } />
         </Switch>
       </div>
     );
@@ -67,5 +70,8 @@ class App  extends React.Component {
 const mapDispatchToProps = dispatch =>({
  setCurrentUser: user => dispatch(setCurrentUser(user))
 })
+const mapStateToprops = ({ user }) => ({
+ currentUser:user.currentUser
+})
 
-export default connect(null,mapDispatchToProps)(App);
+export default connect(mapStateToprops,mapDispatchToProps)(App);
