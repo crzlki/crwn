@@ -1,4 +1,4 @@
-const SHOP_DATA = {//object for fast search
+const SHOP_DATA = {// This data has been converted to object for fast search
   hats: {
     id: 1,
     title: 'Hats',

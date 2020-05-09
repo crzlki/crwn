@@ -10,9 +10,9 @@ import './collections-overview.styles.scss'
 
 const CollectionsOverview = ({collections}) => (
     // overview pass collections to preview
-    // think about the tradeoffs ,where to trade the state
+    // think about the tradeoffs ,where does the data/state live and flow?
     <div className="collections-overview">
-         {
+               {
                     collections.map(({id,...collectionProps})=>(
                     <CollectionPreview key={id} {...collectionProps}> </CollectionPreview>
                     ))
