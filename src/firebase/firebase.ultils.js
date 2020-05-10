@@ -2,7 +2,7 @@ import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
 
-// a qquery is a request we make to firestore to give us somthing from the database
+// a query is a request we make to firestore to give us somthing from the database
 //firestore returns is two tpes of objects: references and snapshots.Of these objects,they can either be document or collection versions
 // 
 
@@ -19,11 +19,13 @@ const config = {
 
 export const createUserProfileDocument = async (userAuth,additionalData)=>{
 if(!userAuth) return
-const userRef = firestore.doc(`users/${userAuth.uid}`)
+const userRef = firestore.doc(`users/${userAuth.uid}`)//get location
 
-const snapShot = await userRef.get()
 
-console.log(snapShot)
+const snapShot = await userRef.get() // get object contains data
+
+// console.log(collectionSnapshot,{collection: collectionSnapshot.docs.map(doc=>doc.data())})
+
 if(!snapShot.exists){ // check if the user is in that place
     const {displayName,email} = userAuth
     const createdAt = new Date()
@@ -43,6 +45,34 @@ return userRef
 }
 
   firebase.initializeApp(config)
+  
+export const addCollectionAndDocuments = async (key, object) => {
+  const collectionRef = firestore.collection(key)
+  
+  const batch = firestore.batch() // use batch in case of unpredicted failure
+  object.forEach(obj=>{
+    const newDocRef = collectionRef.doc()
+    batch.set(newDocRef,obj)
+  })
+  return await batch.commit()
+}
+export const convertCollectionsSnapshotToMap = (collections) => {//convert 2 steps
+  const transformedCollection = collections.docs.map(doc => {
+    const { title, items } = doc.data()
+    // convert data from firestore
+    return {
+      routeName: encodeURI(title.toLowerCase()),
+      id: doc.id,
+      title,
+      items
+    }
+  })
+    // convert arry to object
+ return  transformedCollection.reduce((acc,collection)=>{
+    acc[collection.title.toLowerCase()] = collection
+    return acc
+  },{})
+}
 
 export const auth = firebase.auth()
 export const firestore = firebase.firestore()
