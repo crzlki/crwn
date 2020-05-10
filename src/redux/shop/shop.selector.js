@@ -10,9 +10,9 @@ export  const selectCollections = createSelector(
 )
 export const selectCollectionsForPreview = createSelector(
     [selectCollections],
-    collections => Object.keys(collections).map(key=>collections[key]) //convert it to array
+    collections => ( collections? Object.keys(collections).map(key=>collections[key]):[] ) //convert it to array
 )
 export const selectCollection = collectionUrlParam => createSelector(
     [selectCollections],
-    collections => collections[collectionUrlParam] //dynamically get params
+    collections => (collections ? collections[collectionUrlParam] : null)//dynamically get params
 )
