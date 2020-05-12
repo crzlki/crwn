@@ -2,7 +2,7 @@ import  ShopActionTypes  from './shop.types'
 import { convertCollectionsSnapshotToMap,firestore} from '../../firebase/firebase.ultils'
 
 
-export const fetchCollectionStart = () => ({
+export const fetchCollectionsStart = () => ({
     type: ShopActionTypes.FETCH_COLLECTIONS_START
     
 })
@@ -15,7 +15,7 @@ export const fetchCollectionStartAysnc = () => {
   return dispatch=>{
     
     const collectionRef = firestore.collection('collections')
-    dispatch(fetchCollectionStart())
+    dispatch(fetchCollectionsStart())
 
     collectionRef
     .get()

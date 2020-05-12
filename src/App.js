@@ -4,10 +4,10 @@ import Shop from './components/pages/shop/shop.component.jsx'
 import Header from './components/header/header.component'
 import SignInAndSignUpPage from './components/pages/sign-in-and-sign-up/sign-in-and-sign-up.component'
 import Checkout from './components/pages/checkout/checkout.component'
-import {auth, createUserProfileDocument } from './firebase/firebase.ultils'
+// import {auth, createUserProfileDocument } from './firebase/firebase.ultils'
 // import { selectCollectionsForPreview } from './redux/shop/shop.selector'
 import { connect } from 'react-redux'
-import { setCurrentUser } from './redux/user/user.actions'
+ import { checkUserSession } from './redux/user/user.actions'
 import { selectCurrentUser } from './redux/user/user.selector'
 import { createStructuredSelector } from 'reselect'
 
@@ -31,33 +31,10 @@ class App extends React.Component {
   unsubscribe = null
 
   componentDidMount(){
-    const { setCurrentUser } = this.props
-   this.unsubscribe =  auth.onAuthStateChanged(async userAuth=>{ 
-     // whenever new user status change
-     // the function we passed in is observer
-     // the async stream is keep working listening to the coming events
-     if(userAuth){
-       const userRef = await createUserProfileDocument(userAuth)
-       userRef.onSnapshot(snapShot=>{
-         setCurrentUser({
-           
-             id:snapShot.id,
-             ...snapShot.data()
-           
-         },()=>{
-          console.log(this.state)
-         })
-       })
-       return
-     }  
-     setCurrentUser(null)
-    //  addCollectionAndDocuments('collections',collectionsArray.map(({title,items}) => ({title,items})))
-    }, error =>console.log(error))
-  }
-  componentWillUnmount(){
-    // firestore method offers us to stop the async stream
-    this.unsubscribe()
-  }
+    const { checkUserSession } = this.props
+    checkUserSession()
+  }  
+
 
   render(){
     console.log(this.props)
@@ -87,11 +64,12 @@ class App extends React.Component {
   }
  
 }
-const mapDispatchToProps = dispatch =>({
- setCurrentUser: user => dispatch(setCurrentUser(user))
-})
+
+
 const mapStateToprops = createStructuredSelector({
  currentUser: selectCurrentUser,
 })
-
+const mapDispatchToProps = dispatch => ({
+  checkUserSession: ()=>dispatch(checkUserSession())
+})
 export default connect(mapStateToprops,mapDispatchToProps)(App);

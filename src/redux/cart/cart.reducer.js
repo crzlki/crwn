@@ -7,7 +7,6 @@ const INITIAL_STATE = {
 }
 
 const cartRudcer = (state=INITIAL_STATE, action)=>{
-    console.log(CartActionTypes)
     switch (action.type){
         case CartActionTypes.TOGGLE_CART_HIDDEN: 
             return {
@@ -29,6 +28,11 @@ const cartRudcer = (state=INITIAL_STATE, action)=>{
                     ...state,
                     cartItems: removeItem(state.cartItems,action.payload)
                 }
+        case CartActionTypes.CLEAR_CART:
+            return {
+                ...state,
+                cartItems: []
+            }
         default: 
             return state
     }
