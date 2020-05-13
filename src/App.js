@@ -10,6 +10,7 @@ import { connect } from 'react-redux'
  import { checkUserSession } from './redux/user/user.actions'
 import { selectCurrentUser } from './redux/user/user.selector'
 import { createStructuredSelector } from 'reselect'
+import { useEffect } from 'react'
 
 import './App.css';
 import {
@@ -24,20 +25,13 @@ import {
 
 
 
-class App extends React.Component {
+const App = ({checkUserSession,currentUser})=> {
+     
+
+useEffect(()=>{
+  checkUserSession()
+},[checkUserSession])// cuz this is a prop passed in this component
   
-    
-
-  unsubscribe = null
-
-  componentDidMount(){
-    const { checkUserSession } = this.props
-    checkUserSession()
-  }  
-
-
-  render(){
-    console.log(this.props)
    
     return (
       <div className="App">
@@ -51,7 +45,7 @@ class App extends React.Component {
             exact
             path='/signin'
             render={() =>
-              this.props.currentUser ? (
+              currentUser ? (
                 <Redirect to='/' />
               ) : (
                 <SignInAndSignUpPage />
@@ -60,8 +54,8 @@ class App extends React.Component {
           />     
         </Switch>
       </div>
-    );
-  }
+    )
+  
  
 }
 

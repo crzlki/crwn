@@ -6,34 +6,29 @@ import { connect } from 'react-redux'
 
 import { fetchCollectionsStart } from '../../../redux/shop/shop.actions'
 import { Route } from 'react-router-dom'
-
+import { useEffect } from 'react'
 
 
 import './shop.component.scss'
 
 
 
-
-class ShopPage extends React.Component {
+const ShopPage =({fetchCollectionsStart,match})=> {
 
   // render trigger first
-   componentDidMount(){
-    const {  fetchCollectionsStart } = this.props
-    // 这一个方法 把方法移步到redux里储存 包括loading 改名为isFetching  通过thunk实现
-    fetchCollectionsStart()
-   
-   }
+  useEffect(()=>{
+// 第一次改造 把方法移步到redux里储存 包括loading 改名为isFetching  通过thunk实现
+// 二次改造 通过saga监听 fetchCollectionsStart 方法 执行saga里的异步方法
+fetchCollectionsStart()
+   },[fetchCollectionsStart])
 
-    render(){
-        const { match } = this.props
-        return <div className="shop-page">
+    return <div className="shop-page">
         {/* <Route exact path ={`${match.path}`} render={
             (props)=><CollectionsOverviewWithSpinner isLoading = {isFetching} {...props} />}></Route> */}
         <Route exact path ={`${match.path}`} component={CollectionOverviewContainer} />
         <Route  path ={`${match.path}/:collectionId`} component={CollectionPageContainer}></Route>
-               
-            </div>
-    }
+  </div>
+    
     
 }
 
