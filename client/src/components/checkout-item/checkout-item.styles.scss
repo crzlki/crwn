@@ -6,7 +6,12 @@
     padding: 15px 0;
     font-size: 20px;
     align-items: center;
-  
+    @media screen and (max-width: 800px) {
+      width: 100%;
+      min-height: 80px;
+      padding: 13px 0;
+      font-size: 13px;
+    }
     .image-container {
       width: 23%;
       padding-right: 15px;

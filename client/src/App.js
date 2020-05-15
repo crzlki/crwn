@@ -1,4 +1,5 @@
 import React from 'react';
+import { GlobalStyle } from './global.styles'
 import HomePage from './components/pages/homepage/homepage.jsx'
 import Shop from './components/pages/shop/shop.component.jsx'
 import Header from './components/header/header.component'
@@ -12,7 +13,7 @@ import { selectCurrentUser } from './redux/user/user.selector'
 import { createStructuredSelector } from 'reselect'
 import { useEffect } from 'react'
 
-import './App.css';
+
 import {
   
  Switch,
@@ -35,6 +36,7 @@ useEffect(()=>{
    
     return (
       <div className="App">
+        <GlobalStyle />
         <Header ></Header>
         <Switch>
         <Route exact path='/'  component={HomePage}/>

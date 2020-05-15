@@ -4,4 +4,10 @@
     flex-wrap: nowrap;
     justify-content: space-between;
     margin: 30px auto;
+    @media screen and (max-width: 800px){
+        display: block;
+        width: 90%;
+        margin: 0px auto;
+        font-size: 14px;
+    }
 }
